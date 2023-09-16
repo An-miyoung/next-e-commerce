@@ -5,6 +5,8 @@ import { NextResponse } from "next/server";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import startDb from "@/app/lib/db";
+import { sendEmail } from "@/app/lib/email";
+import { use } from "react";
 
 export const POST = async (req: Request) => {
   try {
@@ -33,22 +35,11 @@ export const POST = async (req: Request) => {
       token,
     });
 
-    const transport = nodemailer.createTransport({
-      host: "sandbox.smtp.mailtrap.io",
-      port: 2525,
-      auth: {
-        user: "bba5cff856b0b4",
-        pass: "ae82f06d522b95",
-      },
-    });
-
     const resetPasswordLink = `${process.env.PASSWORD_RESET_URL}?token=${token}&userId=${user._id}`;
-
-    await transport.sendMail({
-      from: "peanuts-closet@peanut.com",
-      to: user.email,
-      html: `<h1>비밀번호를 재설정합니다.</h1>
-      <h2><a href="${resetPasswordLink}">이 링크</a>를 눌러 비밀번호를 재설정하세요.</h2>`,
+    await sendEmail({
+      profile: { name: user.name, email: user.email },
+      subject: "forget-password",
+      linkUrl: resetPasswordLink,
     });
 
     return NextResponse.json({

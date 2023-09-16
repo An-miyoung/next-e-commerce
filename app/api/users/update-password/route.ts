@@ -1,4 +1,5 @@
 import startDb from "@/app/lib/db";
+import { sendEmail } from "@/app/lib/email";
 import PasswordResetToken from "@/app/models/passwordResetToken";
 import UserModel from "@/app/models/userModels";
 import { UpdatePassword } from "@/app/types";
@@ -48,19 +49,9 @@ export const POST = async (req: Request) => {
     await user.save();
     await PasswordResetToken.findByIdAndDelete(resetToken._id);
 
-    const transport = nodemailer.createTransport({
-      host: "sandbox.smtp.mailtrap.io",
-      port: 2525,
-      auth: {
-        user: "bba5cff856b0b4",
-        pass: "ae82f06d522b95",
-      },
-    });
-
-    await transport.sendMail({
-      from: "peanuts-closet@peanut.com",
-      to: user.email,
-      html: `<h1>비밀번호를 재설정됐습니다.</h1>`,
+    await sendEmail({
+      profile: { name: user.name, email: user.email },
+      subject: "update-password",
     });
 
     return NextResponse.json({ message: "비밀번호가 재설정됐습니다." });

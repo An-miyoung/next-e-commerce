@@ -5,6 +5,7 @@ import { NewUserRequest } from "@/app/types";
 import nodemailer from "nodemailer";
 import EmailVerificationToken from "@models/emailVerificationToken";
 import crypto from "crypto";
+import { sendEmail } from "@/app/lib/email";
 
 export const POST = async (req: Request) => {
   const body = (await req.json()) as NewUserRequest;
@@ -19,23 +20,12 @@ export const POST = async (req: Request) => {
     user: newUser._id,
     token,
   });
+  const verificationUrl = `${process.env.VERIFICATION_URL}?token=${token}&userId=${newUser._id}`;
 
-  const transport = nodemailer.createTransport({
-    host: "sandbox.smtp.mailtrap.io",
-    port: 2525,
-    auth: {
-      user: "bba5cff856b0b4",
-      pass: "ae82f06d522b95",
-    },
-  });
-
-  const verificationUrl = `http://localhost:3000/verify?token=${token}&userId=${newUser._id}`;
-
-  const verifiedMail = await transport.sendMail({
-    from: "peanuts-closet@peanut.com",
-    to: newUser.email,
-    html: `<h1>Welcome to Join Peanuts-Closet</h1>
-    <h2>Please, verify your Email by clicking on <a href="${verificationUrl}">this link</a></h2>`,
+  await sendEmail({
+    profile: { name: newUser.name, email: newUser.email },
+    subject: "verification",
+    linkUrl: verificationUrl,
   });
 
   return NextResponse.json({ message: "이메일을 인증하세요." });

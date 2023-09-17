@@ -2,7 +2,6 @@ import UserModel from "@models/userModels";
 import startDb from "@lib/db";
 import { NextResponse } from "next/server";
 import { NewUserRequest } from "@/app/types";
-import nodemailer from "nodemailer";
 import EmailVerificationToken from "@models/emailVerificationToken";
 import crypto from "crypto";
 import { sendEmail } from "@/app/lib/email";

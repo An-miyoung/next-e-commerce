@@ -8,6 +8,7 @@ interface props {
 
 export default async function GuestLayout({ children }: props) {
   const session = await auth();
+  if (session) redirect("/");
 
   return (
     <div className=" max-h-screen flex items-center justify-center">

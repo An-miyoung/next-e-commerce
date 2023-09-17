@@ -1,30 +1,28 @@
 "use client";
 
 import ProductForm from "@/app/components/ProductForm";
+import { NewProductInfo } from "@/app/types";
 import React from "react";
-
-// const init = {
-//   id: "1234567",
-//   title: "Test",
-//   description: "awesome",
-//   thumbnail: "https://",
-//   images: ["https://"],
-//   bulletPoints: [],
-//   mrp: 3000,
-//   salePrice: 2500,
-//   category: "food",
-//   quantity: 30,
-// };
+import { newProductInfoSchema } from "@utils/validationSchema";
+import { ValidationError } from "yup";
+import { toast } from "react-toastify";
 
 export default function create() {
-  const handleSubmit = () => {};
+  const handleCreateProduct = async (values: NewProductInfo) => {
+    try {
+      await newProductInfoSchema.validate(values, { abortEarly: false });
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        error.inner.map((e) => {
+          toast.warning(e.message);
+        });
+      }
+    }
+  };
+
   return (
     <>
-      <ProductForm
-        onSubmit={(values) => {
-          console.log(values);
-        }}
-      />
+      <ProductForm onSubmit={handleCreateProduct} />
     </>
   );
 }

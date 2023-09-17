@@ -14,7 +14,7 @@ export default function useAuth(): Auth {
   return {
     loading: session.status === "loading",
     loggedIn: session.status === "authenticated",
-    isAdmin: false,
+    isAdmin: session.data?.user.role === "admin",
     profile: session.data?.user,
   };
 }

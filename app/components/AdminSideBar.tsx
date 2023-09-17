@@ -82,7 +82,7 @@ const AdminSidebar = ({ children }: Props) => {
         </div>
       </div>
 
-      <div className="max-w-screen-xl mx-auto flex-1 p-4 overflow-y-auto">
+      <div className="w-full max-w-screen-xl mx-auto flex-1 p-4 overflow-y-auto">
         {children}
       </div>
     </div>

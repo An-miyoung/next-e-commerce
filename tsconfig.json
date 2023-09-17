@@ -24,6 +24,8 @@
       "@hooks/*": ["./app/hooks/*"],
       "@components/*": ["./app/components/*"],
       "@lib/*": ["./app/lib/*"],
+      "@utils/*": ["./app/utils/*"],
+      "@ui/*": ["./app/ui/*"],
       "@models/*": ["./app/models/*"]
     }
   },

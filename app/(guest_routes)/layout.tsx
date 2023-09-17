@@ -7,9 +7,12 @@ interface props {
   children: ReactNode;
 }
 
-export default async function HomeLayout({ children }: props) {
+export default async function GuestLayout({ children }: props) {
+  const session = await auth();
+  if (session) redirect("/");
+
   return (
-    <div className=" max-w-screen-3xl mx-auto lg:p-0 p-4">
+    <div className=" max-h-screen flex items-center justify-center">
       <Navbar />
       {children}
     </div>

@@ -15,7 +15,6 @@ export default function create() {
     try {
       // await newProductInfoSchema.validate(values, { abortEarly: false });
       const thumbnailRes = await uploadImage(thumbnail!);
-      console.log(thumbnailRes);
 
       let productImages: { url: string; id: string }[] = [];
       if (images) {

@@ -37,9 +37,32 @@ export const createProduct = async (info: NewProduct) => {
   try {
     await startDb();
     const res = await ProductModel.create({ ...info });
-    console.log(res);
   } catch (error: any) {
     console.log(error.message);
     throw new Error("Fail to create new product");
+  }
+};
+
+export const removeImageFromCloud = async (publicId: string) => {
+  await cloudinary.uploader.destroy(publicId);
+};
+
+export const removeAndUpdateProductImage = async (
+  id: string,
+  publicId: string
+) => {
+  try {
+    const { result } = await cloudinary.uploader.destroy(publicId);
+    // DB 에서 지우기
+    if (result === "ok") {
+      await startDb();
+      await ProductModel.findByIdAndUpdate(id, {
+        // pull operator 는 원하는 조건과 일치하는 것을 pull(제거한다)
+        $pull: { images: { id: publicId } },
+      });
+    }
+  } catch (error: any) {
+    console.log("이미지를 삭제하는데 실패했습니다.", error.message);
+    throw new Error(error.message);
   }
 };

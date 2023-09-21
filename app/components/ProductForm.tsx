@@ -20,6 +20,7 @@ import { NewProductInfo } from "../types";
 interface Props {
   initialValue?: InitialValue;
   onSubmit(values: NewProductInfo): void;
+  onImageRemove?(source: string): void;
 }
 
 export interface InitialValue {
@@ -30,6 +31,7 @@ export interface InitialValue {
   images?: string[];
   bulletPoints?: string[];
   mrp: number;
+  price: { base: number; discounted: number };
   salePrice: number;
   category: string;
   quantity: number;
@@ -38,51 +40,81 @@ export interface InitialValue {
 const defaultValue = {
   title: "",
   description: "",
+  thumbnail: "",
+  images: [""],
   bulletPoints: [""],
   mrp: 0,
+  price: { base: 0, discounted: 0 },
   salePrice: 0,
   category: "",
   quantity: 0,
 };
 
 export default function ProductForm(props: Props) {
-  const { onSubmit, initialValue } = props;
+  const { onSubmit, onImageRemove, initialValue } = props;
   const [isPending, startTransition] = useTransition();
   const [images, setImages] = useState<File[]>([]);
   const [thumbnail, setThumbnail] = useState<File>();
   const [isForUpdate, setIsForUpdate] = useState(false);
-  const [productInfo, setProductInfo] = useState({ ...defaultValue });
+  const [productInfo, setProductInfo] = useState({
+    ...defaultValue,
+  });
   const [thumbnailSource, setThumbnailSource] = useState<string[]>();
   const [productImagesSource, setProductImagesSource] = useState<string[]>();
 
-  const fields = productInfo.bulletPoints;
+  const fields = productImagesSource ? productInfo.bulletPoints : [];
 
   const addMoreBulletPoints = () => {
     setProductInfo({
       ...productInfo,
-      bulletPoints: [...productInfo.bulletPoints, ""],
+      bulletPoints: productInfo.bulletPoints && [
+        ...productInfo.bulletPoints,
+        "",
+      ],
     });
   };
 
   const removeBulletPoint = (indexToRemove: number) => {
-    const points = [...productInfo.bulletPoints];
-    const filteredPoints = points.filter((_, index) => index !== indexToRemove);
+    const points = productInfo.bulletPoints && [...productInfo.bulletPoints];
+    const filteredPoints =
+      points && points.filter((_, index) => index !== indexToRemove);
     setProductInfo({
       ...productInfo,
-      bulletPoints: [...filteredPoints],
+      bulletPoints: filteredPoints && [...filteredPoints],
     });
   };
 
   const updateBulletPointValue = (value: string, index: number) => {
-    const oldValues = [...fields];
+    const oldValues = [...fields!];
     oldValues[index] = value;
 
-    setProductInfo({ ...productInfo, bulletPoints: [...oldValues] });
+    setProductInfo({
+      ...productInfo,
+      bulletPoints: oldValues && [...oldValues],
+    });
   };
 
   const removeImage = async (index: number) => {
-    const newImages = images.filter((_, idx) => idx !== index);
-    setImages([...newImages]);
+    if (!productImagesSource) return;
+
+    // image in the clound
+    const imageToRemove = productImagesSource[index];
+    const cloudSorurceUrl = "https://res.cloudinary.com";
+    if (imageToRemove.startsWith(cloudSorurceUrl)) {
+      onImageRemove && onImageRemove(imageToRemove);
+    } else {
+      //  image in the local state
+      const fileIndexDifference = productImagesSource.length - images.length;
+      const indexToRemove = index - fileIndexDifference;
+      // setImageFiles(prev => prev.filter((_, idx) => indexToRemove !== idx))
+      const newImageFiles = images.filter((_, idx) => indexToRemove !== idx);
+      setImages([...newImageFiles]);
+    }
+    //  update UI
+    const newImageSource = productImagesSource.filter(
+      (_, idx) => index !== idx
+    );
+    setProductImagesSource([...newImageSource]);
   };
 
   const getBtnTitle = () => {
@@ -92,15 +124,18 @@ export default function ProductForm(props: Props) {
 
   useEffect(() => {
     if (initialValue) {
+      // @ts-ignore
       setProductInfo({ ...initialValue });
       setThumbnailSource([initialValue.thumbnail]);
       setProductImagesSource(initialValue.images);
+      setImages([]);
       setIsForUpdate(true);
     }
   }, [initialValue]);
 
   const onImagesChange: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
     const files = target.files;
+
     if (files) {
       const newImages = Array.from(files).map((item) => item);
       const oldImages = productImagesSource || [];
@@ -125,7 +160,7 @@ export default function ProductForm(props: Props) {
 
   return (
     <div className="p-4 max-w-3xl mx-auto">
-      <h1 className="mb-2 text-xl">새 상품을 추가합니다.</h1>
+      <h1 className="mb-2 text-xl">상품 상세 페이지</h1>
 
       <form
         action={() =>
@@ -230,7 +265,7 @@ export default function ProductForm(props: Props) {
 
         <div className="space-y-4">
           <h3>판매시 강점</h3>
-          {fields.map((field, index) => (
+          {fields!.map((field, index) => (
             <div key={index} className="flex items-center">
               <Input
                 type="text"
@@ -242,7 +277,7 @@ export default function ProductForm(props: Props) {
                 className="mb-4"
                 crossOrigin={undefined}
               />
-              {fields.length > 1 ? (
+              {fields!.length > 1 ? (
                 <button
                   onClick={() => removeBulletPoint(index)}
                   type="button"

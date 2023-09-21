@@ -23,7 +23,6 @@ const fetchProduct = async (
       description: product.description,
       bulletPoints: product.bulletPoints,
       thumbnail: product.thumbnail.url,
-      images: product.images,
       price: {
         mrp: product.price.base,
         salePrice: product.price.discounted,

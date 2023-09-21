@@ -28,7 +28,7 @@ export interface InitialValue {
   description: string;
   thumbnail: string;
   images?: string[];
-  bulletPoints: string[];
+  bulletPoints?: string[];
   mrp: number;
   salePrice: number;
   category: string;

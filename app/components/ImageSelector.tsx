@@ -38,7 +38,7 @@ export default function ImageSelector({
             {multiple ? (
               <div
                 onClick={() => onRemove && onRemove(index)}
-                className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white rounded cursor-pointer"
+                className="absolute inset-0 bg-blue-gray-50 bg-transparent flex items-center justify-center text-white rounded cursor-pointer"
               >
                 <TrashIcon className="w-4 h-4" />
               </div>

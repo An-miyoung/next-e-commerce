@@ -29,9 +29,9 @@ export interface Product {
 }
 
 const formatPrice = (amount: number) => {
-  const formatter = new Intl.NumberFormat("en-US", {
+  const formatter = new Intl.NumberFormat("ko-KR", {
     style: "currency",
-    currency: "INR",
+    currency: "KRW",
   });
 
   return formatter.format(amount);
@@ -160,14 +160,22 @@ export default function ProductTable(props: Props) {
                   </td>
                   <td className={classes}>
                     <div className="w-max">
-                      <Typography variant="small" color="blue-gray">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
                         {quantity}
                       </Typography>
                     </div>
                   </td>
                   <td className={classes}>
                     <div className="w-max">
-                      <Typography variant="small" color="blue-gray">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
                         {category}
                       </Typography>
                     </div>

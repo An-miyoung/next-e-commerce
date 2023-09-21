@@ -48,5 +48,26 @@ export interface NewProductInfo {
   category: string;
   quantity: number;
   images?: File[];
-  thumbnail?: File | undefined;
+  thumbnail?: File;
+}
+
+export interface ProductResponse {
+  id: string;
+  title: string;
+  description: string;
+  bulletPoints?: string[];
+  thumbnail: {
+    url: string;
+    id: string;
+  };
+  images?: {
+    url: string;
+    id: string;
+  }[];
+  price: {
+    base: number;
+    discounted: number;
+  };
+  quantity: number;
+  category: string;
 }

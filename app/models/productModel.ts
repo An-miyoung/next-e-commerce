@@ -1,7 +1,7 @@
 import mongoose, { Document, Model, Schema, models, model } from "mongoose";
 import categories from "../utils/categories";
 
-export interface Product {
+export interface NewProduct {
   title: string;
   description: string;
   bulletPoints?: string[];
@@ -22,7 +22,7 @@ export interface Product {
 }
 
 // Step 1: Create the interface for ProductDocument
-interface ProductDocument extends Product {
+interface ProductDocument extends NewProduct {
   // Step 3: Define the virtual property
   sale: number;
 }

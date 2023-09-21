@@ -2,8 +2,16 @@
 
 import React from "react";
 import ProductForm, { InitialValue } from "./ProductForm";
-import { ProductResponse } from "@/app/types";
-import { removeAndUpdateProductImage } from "../(admin_route)/products/action";
+import { NewProductInfo, ProductResponse, ProductToUpdate } from "@/app/types";
+import {
+  removeAndUpdateProductImage,
+  removeImageFromCloud,
+  updateProduct,
+} from "../(admin_route)/products/action";
+import { uploadImage } from "@utils/helper";
+import { ValidationError } from "yup";
+import { toast } from "react-toastify";
+import { updateProductInfoSchema } from "@utils/validationSchema";
 
 interface Props {
   product: ProductResponse;
@@ -26,8 +34,41 @@ export default function UpdateProduct({ product }: Props) {
     removeAndUpdateProductImage(product.id, publicId);
   };
 
-  const handleSubmit = (values: any) => {
-    console.log(values);
+  const handleSubmit = async (values: NewProductInfo) => {
+    try {
+      const { thumbnail, images } = values;
+      await updateProductInfoSchema.validate(values, { abortEarly: false });
+      const dataToUpdate: ProductToUpdate = {
+        title: values.title,
+        description: values.description,
+        bulletPoints: values.bulletPoints,
+        category: values.category,
+        quantity: values.quantity,
+        price: { base: values.mrp, discounted: values.salePrice },
+      };
+
+      if (thumbnail) {
+        // 기본 썸네일을 클라우드에서 지운다.
+        await removeImageFromCloud(product.thumbnail.id);
+        const { id, url } = await uploadImage(thumbnail);
+        dataToUpdate.thumbnail = { id, url };
+      }
+
+      if (images?.length) {
+        const uploadPromise = images.map(async (imageFile) => {
+          return await uploadImage(imageFile!);
+        });
+        dataToUpdate.images = await Promise.all(uploadPromise);
+
+        await updateProduct(product.id, dataToUpdate);
+      }
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        error.inner.map((e) => {
+          toast.warning(e.message);
+        });
+      }
+    }
   };
 
   return (

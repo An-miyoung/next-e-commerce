@@ -6,7 +6,7 @@ const fileValidator = (file: File) => {
   return file.size <= 1024 * 1024;
 };
 
-export const newProductInfoSchema = yup.object().shape({
+const commonSchema = {
   title: yup.string().required("상품명은 필수입력입니다."),
   description: yup.string().required("상품설명은 필수입력입니다."),
   bulletPoints: yup.array().of(yup.string()),
@@ -37,6 +37,10 @@ export const newProductInfoSchema = yup.object().shape({
         return value.every((file) => file.size <= 1024 * 1024); // 1MB in bytes
       }
     ),
+};
+
+export const newProductInfoSchema = yup.object().shape({
+  ...commonSchema,
   thumbnail: yup
     .mixed()
     .test(
@@ -46,4 +50,8 @@ export const newProductInfoSchema = yup.object().shape({
         fileValidator(file as File);
       }
     ),
+});
+
+export const updateProductInfoSchema = yup.object().shape({
+  ...commonSchema,
 });

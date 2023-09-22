@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Notification from "@components/Notification";
 import AuthSession from "./components/AuthSession";
+import Provider from "./Provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +21,7 @@ export default function RootLayout({
     <AuthSession>
       <html lang="en">
         <body className={inter.className}>
-          {children}
+          <Provider>{children}</Provider>
           <Notification />
         </body>
       </html>

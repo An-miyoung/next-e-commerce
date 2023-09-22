@@ -18,7 +18,7 @@ const settings: Settings = {
   slidesToScroll: 1,
   arrows: false,
   autoplay: false,
-  className: "w-[500px]",
+  className: "w-[150px]",
 };
 
 export default function ProductImageGallery(props: Props) {
@@ -52,7 +52,7 @@ export default function ProductImageGallery(props: Props) {
           return (
             <Image
               onClick={() => slider.current?.slickGoTo(index)}
-              className={index === currentSlide ? "ring ring-blue-500" : ""}
+              className={index === currentSlide ? "ring ring-black" : ""}
               key={index}
               src={img}
               alt="testing"

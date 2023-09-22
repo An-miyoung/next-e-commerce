@@ -9,7 +9,7 @@ interface props {
 
 export default async function HomeLayout({ children }: props) {
   return (
-    <div className=" max-w-screen-3xl mx-auto lg:p-0 p-4">
+    <div className=" max-w-screen-2xl mx-auto p-4">
       <Navbar />
       {children}
     </div>

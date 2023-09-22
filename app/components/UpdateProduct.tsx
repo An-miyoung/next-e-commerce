@@ -37,6 +37,7 @@ export default function UpdateProduct({ product }: Props) {
   const handleSubmit = async (values: NewProductInfo) => {
     try {
       const { thumbnail, images } = values;
+
       await updateProductInfoSchema.validate(values, { abortEarly: false });
       const dataToUpdate: ProductToUpdate = {
         title: values.title,
@@ -49,8 +50,10 @@ export default function UpdateProduct({ product }: Props) {
 
       if (thumbnail) {
         // 기본 썸네일을 클라우드에서 지운다.
-        await removeImageFromCloud(product.thumbnail.id);
+        console.log(thumbnail);
+        // await removeImageFromCloud(product.thumbnail.id);
         const { id, url } = await uploadImage(thumbnail);
+        console.log(id, url);
         dataToUpdate.thumbnail = { id, url };
       }
 

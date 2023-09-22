@@ -62,7 +62,7 @@ export default function ProductForm(props: Props) {
   const [thumbnailSource, setThumbnailSource] = useState<string[]>();
   const [productImagesSource, setProductImagesSource] = useState<string[]>();
 
-  const fields = productImagesSource ? productInfo.bulletPoints : [];
+  const fields = productInfo.bulletPoints;
 
   const addMoreBulletPoints = () => {
     setProductInfo({
@@ -150,7 +150,7 @@ export default function ProductForm(props: Props) {
   const onThumbnailChange: ChangeEventHandler<HTMLInputElement> = ({
     target,
   }) => {
-    const files = target.files;
+    let files = target.files;
     if (files) {
       const file = files[0];
       setThumbnail(file);
@@ -265,7 +265,7 @@ export default function ProductForm(props: Props) {
 
         <div className="space-y-4">
           <h3>판매시 강점</h3>
-          {fields!.map((field, index) => (
+          {fields.map((field, index) => (
             <div key={index} className="flex items-center">
               <Input
                 type="text"
@@ -277,7 +277,7 @@ export default function ProductForm(props: Props) {
                 className="mb-4"
                 crossOrigin={undefined}
               />
-              {fields!.length > 1 ? (
+              {fields.length > 1 ? (
                 <button
                   onClick={() => removeBulletPoint(index)}
                   type="button"

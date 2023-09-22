@@ -21,7 +21,5 @@ export const uploadImage = async (file: File) => {
 
   const data = await res.json();
 
-  console.log(data);
-
   return { url: data.secure_url, id: data.public_id };
 };

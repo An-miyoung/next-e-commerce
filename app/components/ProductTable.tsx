@@ -38,12 +38,12 @@ const formatPrice = (amount: number) => {
 };
 
 const TABLE_HEAD = [
-  "Product",
-  "MRP",
-  "Sale Price",
-  "Quantity",
-  "Category",
-  "Edit",
+  "상품명",
+  "가격",
+  "세일가격",
+  "재고수량",
+  "카테고리",
+  "수정하기",
 ];
 
 interface Props {
@@ -79,6 +79,7 @@ export default function ProductTable(props: Props) {
           <Typography variant="h5" color="blue-gray">
             상품 테이블
           </Typography>
+          <div className="h-8" />
         </div>
         <div className="flex gap-2">
           <SearchForm />

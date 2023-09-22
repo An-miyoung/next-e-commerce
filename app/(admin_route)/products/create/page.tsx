@@ -7,7 +7,6 @@ import { ValidationError } from "yup";
 import { toast } from "react-toastify";
 import { uploadImage } from "@/app/utils/helper";
 import { createProduct } from "../action";
-import { Hubballi } from "next/font/google";
 
 export default function create() {
   const handleCreateProduct = async (values: NewProductInfo) => {

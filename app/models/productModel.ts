@@ -55,7 +55,9 @@ const productSchema = new Schema<ProductDocument>(
 
 // Step 3: Define the virtual property 'sale'
 productSchema.virtual("sale").get(function (this: ProductDocument) {
-  return (this.price.base - this.price.discounted) / this.price.base;
+  return Math.round(
+    ((this.price.base - this.price.discounted) / this.price.base) * 100
+  );
 });
 
 // Step 4: Check if the model already exists before creating it

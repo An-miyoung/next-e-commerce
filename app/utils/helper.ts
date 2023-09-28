@@ -8,6 +8,7 @@ export const uploadImage = async (file: File) => {
   const cloudConfig = await getCloudConfig();
   const formData = new FormData();
   formData.append("file", file);
+  console.log(file);
   formData.append("api_key", cloudConfig.key);
   formData.append("signature", signature);
   formData.append("timestamp", timestamp.toString());

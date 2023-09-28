@@ -68,7 +68,8 @@ export default function ProductCard({ product }: Props) {
               alt={product.title}
               width={200}
               height={200}
-              priority={false}
+              priority
+              style={{ width: 200, height: 200 }}
             />
           </CardHeader>
           <CardBody>

@@ -43,6 +43,7 @@ export default function ProductImageGallery(props: Props) {
               alt="testing"
               width={150}
               height={150}
+              style={{ width: 150, height: 150 }}
             />
           );
         })}
@@ -58,6 +59,7 @@ export default function ProductImageGallery(props: Props) {
               alt="testing"
               width={80}
               height={80}
+              style={{ width: 80, height: 80 }}
             />
           );
         })}

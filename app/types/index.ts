@@ -90,3 +90,10 @@ export interface NewCartRequest {
   productId: string;
   quantity: number;
 }
+
+export interface NewFeaturedProduct {
+  banner: { url: string; id: string };
+  title: string;
+  link: string;
+  linkTitle: string;
+}

@@ -2,7 +2,7 @@
 
 import { Button, Input } from "@material-tailwind/react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import React, {
   ChangeEventHandler,
   useEffect,
@@ -11,8 +11,13 @@ import React, {
 } from "react";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import { uploadImage } from "../utils/helper";
-import { createFeaturedProduct } from "../(admin_route)/products/featured/action";
+import { extractPublicId, uploadImage } from "../utils/helper";
+import {
+  createFeaturedProduct,
+  updateFeaturedProduct,
+} from "../(admin_route)/products/featured/action";
+import { FeaturedProductForUpdate } from "../types";
+import { removeImageFromCloud } from "../(admin_route)/products/action";
 
 export interface FeaturedProduct {
   file?: File;
@@ -74,8 +79,39 @@ export default function FeaturedProductForm({ initialValue }: Props) {
   const [featuredProduct, setFeaturedProduct] =
     useState<FeaturedProduct>(defaultProduct);
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
-  const handleUpdate = async () => {};
+  const handleUpdate = async () => {
+    try {
+      const { file, title, link, linkTitle } =
+        await oldFeaturedProductValidationSchema.validate(
+          { ...featuredProduct },
+          { abortEarly: false }
+        );
+
+      const data: FeaturedProductForUpdate = {
+        title,
+        link,
+        linkTitle,
+      };
+      if (file) {
+        const publicId = extractPublicId(initialValue.banner);
+        if (!publicId) return redirect("/404");
+        await removeImageFromCloud(publicId);
+        const banner = await uploadImage(file!);
+        data.banner = banner;
+      }
+      await updateFeaturedProduct(initialValue.id, data);
+      router.refresh();
+      router.push("/products/featured/add");
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        error.inner.map((err) => {
+          toast.warning(err.message);
+        });
+      }
+    }
+  };
 
   const handleCreate = async () => {
     // validaation
@@ -87,6 +123,8 @@ export default function FeaturedProductForm({ initialValue }: Props) {
         );
       const banner = await uploadImage(file!);
       await createFeaturedProduct({ banner, title, link, linkTitle });
+      router.refresh();
+      setFeaturedProduct({ ...defaultProduct });
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         error.inner.map((err) => {
@@ -147,7 +185,7 @@ export default function FeaturedProductForm({ initialValue }: Props) {
             <Image alt="banner" src={poster || initialValue?.banner} fill />
           ) : (
             <>
-              <span>Select Banner</span>
+              <span>배너이미지 선택</span>
               <span>1140 x 380</span>
             </>
           )}
@@ -155,7 +193,7 @@ export default function FeaturedProductForm({ initialValue }: Props) {
       </label>
       <div className="h-5" />
       <Input
-        label="Title"
+        label="배너명"
         name="title"
         value={title}
         onChange={handleChange}
@@ -164,7 +202,7 @@ export default function FeaturedProductForm({ initialValue }: Props) {
       <div className="h-5" />
       <div className="flex space-x-4">
         <Input
-          label="Link"
+          label="상세보기 링크"
           name="link"
           value={link}
           onChange={handleChange}
@@ -173,7 +211,7 @@ export default function FeaturedProductForm({ initialValue }: Props) {
 
         <div className="h-5" />
         <Input
-          label="Lik Title"
+          label="상세보기 별칭"
           name="linkTitle"
           value={linkTitle}
           onChange={handleChange}

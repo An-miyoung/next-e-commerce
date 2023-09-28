@@ -51,9 +51,10 @@ export default function ProductCard({ product }: Props) {
       toast.warning(error);
     }
   };
+
   return (
     <div key={product.id} className="border-2 border-black">
-      <Card className="w-full">
+      <Card>
         <Link className="w-full" href={`/${product.title}/${product.id}`}>
           <CardHeader
             shadow={false}

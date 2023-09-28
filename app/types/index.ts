@@ -97,3 +97,10 @@ export interface NewFeaturedProduct {
   link: string;
   linkTitle: string;
 }
+
+export interface FeaturedProductForUpdate {
+  banner?: { url: string; id: string };
+  title: string;
+  link: string;
+  linkTitle: string;
+}

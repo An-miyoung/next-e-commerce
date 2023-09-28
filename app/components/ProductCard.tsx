@@ -54,24 +54,23 @@ export default function ProductCard({ product }: Props) {
 
   return (
     <div key={product.id} className="border-2 border-black">
-      <Card>
+      <Card className="w-full">
         <Link className="w-full" href={`/${product.title}/${product.id}`}>
           <CardHeader
             shadow={false}
             floated={false}
-            className="relative w-20 aspect-square m-0"
+            className="relative w-full aspect-square m-0"
           >
-            <div className="absolute p-2">
-              <Chip color="red" value={`${product.sale}% off`} />
-            </div>
             <Image
               src={product.thumbnail}
               alt={product.title}
-              width={200}
-              height={200}
+              fill
               priority
-              style={{ width: 200, height: 200 }}
+              sizes="(max-width: 600px) 100vw, (max-width: 600px) 50vw, 33vw"
             />
+            <div className="absolute right-0 p-2">
+              <Chip color="red" value={`${product.sale}% off`} />
+            </div>
           </CardHeader>
           <CardBody>
             <div className="mb-2">
@@ -86,7 +85,6 @@ export default function ProductCard({ product }: Props) {
               >
                 ${product.price.base}
               </Typography>
-              <p> ~ </p>
               <Typography color="blue-gray" className="font-medium">
                 ${product.price.discounted}
               </Typography>
@@ -106,13 +104,14 @@ export default function ProductCard({ product }: Props) {
               })
             }
             disabled={isPending}
+            className="bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
           >
             Add to Cart
           </Button>
           <Button
             ripple={false}
             fullWidth={false}
-            className=" text-white shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
+            className="bg-blue-400 text-white shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
             disabled={isPending}
           >
             Buy Now

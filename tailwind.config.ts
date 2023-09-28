@@ -6,6 +6,8 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 module.exports = withMT({
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
+    "./app/**/*.{js,ts,jsx,tsx}", // Note the addition of the `app` directory.
+    "./components/**/*.{js,ts,jsx,tsx}",
     "./node_modules/@material-tailwind/react/components/**/*.{js,ts,jsx,tsx}",
     "./node_modules/@material-tailwind/react/theme/components/**/*.{js,ts,jsx,tsx}",
   ],

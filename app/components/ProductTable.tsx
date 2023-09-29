@@ -81,7 +81,7 @@ export default function ProductTable(props: Props) {
           </Typography>
           <div className="h-8" />
         </div>
-        <div className="flex gap-2">
+        <div className="flex w-full shrink-0 gap-2 md:w-max">
           <SearchForm />
           <Link
             href="/products/create"

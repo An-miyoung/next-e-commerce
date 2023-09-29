@@ -104,3 +104,9 @@ export interface FeaturedProductForUpdate {
   link: string;
   linkTitle: string;
 }
+
+export interface UserProfileToUpdate {
+  id: string;
+  avatar?: { url: string; id: string };
+  name: string;
+}

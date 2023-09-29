@@ -1,19 +1,20 @@
 "use client";
 
 import React, { useState } from "react";
-import useAuth from "../hooks/useAuth";
 import { toast } from "react-toastify";
-import { useSession } from "next-auth/react";
 
-export default function EmailVerificationBanner() {
+interface Props {
+  id?: string;
+  verified?: boolean;
+}
+
+export default function EmailVerificationBanner({ id, verified }: Props) {
   const [submitting, setSubmitting] = useState(false);
-  const { profile } = useAuth();
-  console.log(profile);
 
   const applyForReverification = async () => {
-    if (!profile) return;
+    if (!id) return;
     setSubmitting(true);
-    const res = await fetch(`/api/users/verify?userId=${profile?.id}`, {
+    const res = await fetch(`/api/users/verify?userId=${id}`, {
       method: "GET",
     });
     const { message, error } = await res.json();
@@ -27,7 +28,7 @@ export default function EmailVerificationBanner() {
     setSubmitting(false);
   };
 
-  if (profile?.verified) return null;
+  if (verified) return null;
   return (
     <div className="p-2 text-center bg-yellow-500">
       <span>이메일 인증을 해주세요. </span>

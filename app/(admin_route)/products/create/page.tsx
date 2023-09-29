@@ -9,7 +9,7 @@ import { uploadImage } from "@/app/utils/helper";
 import { createProduct } from "../action";
 import { useRouter } from "next/navigation";
 
-export default function create() {
+export default function Create() {
   const router = useRouter();
   const handleCreateProduct = async (values: NewProductInfo) => {
     const { thumbnail, images } = values;

@@ -21,9 +21,10 @@ import SignOutButton from "./SignOut";
 
 interface Props {
   menuItems: MenuItems[];
+  avatar?: string;
 }
 
-export default function ProfileMenu({ menuItems }: Props) {
+export default function ProfileMenu({ menuItems, avatar }: Props) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const closeMenu = () => setIsMenuOpen(false);
   const { isAdmin } = useAuth();
@@ -41,7 +42,10 @@ export default function ProfileMenu({ menuItems }: Props) {
             size="sm"
             alt="candice wu"
             className="border border-blue-500 p-0.5"
-            src="https://mblogthumb-phinf.pstatic.net/MjAxNzA0MDNfNjMg/MDAxNDkxMTg4NzEyMDI2.TdFSEg_ozAYOBcnzUMGTJZvIvp81450nYPwnJXsUaH8g.F0YTfHrUrEXKJc9ezOQ7P3cq9jOK7wfQn7r7Qw_UOn4g.JPEG.truthy2000/7.jpg?type=w800"
+            src={
+              avatar ||
+              "https://res.cloudinary.com/dolhktdiv/image/upload/v1695973744/user-avartar_kahgcx.png"
+            }
           />
           <ChevronDownIcon
             strokeWidth={2.5}

@@ -4,6 +4,23 @@ import startDb from "@/app/lib/db";
 import { auth } from "@/auth";
 import CartModel from "@/app/models/cartModel";
 import { Types } from "mongoose";
+import UserModel from "@/app/models/userModels";
+
+const fetchUserProfile = async () => {
+  const session = await auth();
+  if (!session) return null;
+
+  await startDb();
+  const user = await UserModel.findById(session.user.id);
+  if (!user) return null;
+  return {
+    id: user._id.toString(),
+    name: user.name,
+    email: user.email,
+    avatar: user.avatar?.url,
+    verified: user.verified,
+  };
+};
 
 const getCartItemsCount = async () => {
   try {
@@ -40,10 +57,10 @@ const getCartItemsCount = async () => {
 
 export default async function Navbar() {
   const count = await getCartItemsCount();
+  const profile = await fetchUserProfile();
   return (
     <div>
-      {" "}
-      <NavUI cartItemsCount={count} />
+      <NavUI cartItemsCount={count} avatar={profile?.avatar} />
     </div>
   );
 }

@@ -41,6 +41,7 @@ export default function BuyingOptions() {
     if (!res.ok && error) {
       toast.warning(error);
     }
+    router.refresh();
   };
 
   return (

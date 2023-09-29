@@ -37,7 +37,6 @@ export default function ProductCard({ product }: Props) {
   const router = useRouter();
 
   const addToCart = async () => {
-    console.log(product);
     if (!product.id) return;
     if (!loggedIn) router.push("/auth/signin");
 
@@ -45,11 +44,11 @@ export default function ProductCard({ product }: Props) {
       method: "POST",
       body: JSON.stringify({ productId: product.id, quantity: 1 }),
     });
-    console.log(res);
     const { error } = await res.json();
     if (!res.ok && error) {
       toast.warning(error);
     }
+    router.refresh();
   };
 
   return (

@@ -1,6 +1,7 @@
 import React from "react";
 import BuyingOptions from "@components/BuyingOptions";
 import ProductImageGallery from "@components/ProductImageGallery";
+import { formatPrice } from "@utils/helper";
 
 interface Props {
   title: string;
@@ -10,15 +11,6 @@ interface Props {
   price: { base: number; discounted: number };
   sale: number;
 }
-
-const formatPrice = (amount: number) => {
-  const formatter = new Intl.NumberFormat("ko-KR", {
-    style: "currency",
-    currency: "KRW",
-  });
-
-  return formatter.format(amount);
-};
 
 export default function ProductView({
   description,

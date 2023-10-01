@@ -1,20 +1,19 @@
-import CartEmptyPage from "@/app/components/CartEmptyPage";
-import CartItems from "@/app/components/CartItems";
-import startDb from "@/app/lib/db";
-import CartModel from "@/app/models/cartModel";
-import { auth } from "@/auth";
+import startDb from "./db";
+import CartModel from "@models/cartModel";
 import { Types } from "mongoose";
-import React from "react";
+import { CartItems } from "@app/types";
 
-const fetchCartProducts = async () => {
-  const session = await auth();
-  if (!session?.user) return null;
-
-  const userId = session.user.id;
+export const getCartItems = async (
+  userId: string,
+  cartId: string
+): Promise<CartItems> => {
   await startDb();
   const [cartItems] = await CartModel.aggregate([
     {
-      $match: { userId: new Types.ObjectId(userId) },
+      $match: {
+        userId: new Types.ObjectId(userId),
+        _id: new Types.ObjectId(cartId),
+      },
     },
     { $unwind: "$items" },
     {
@@ -41,7 +40,7 @@ const fetchCartProducts = async () => {
               { $arrayElemAt: ["$product.price.discounted", 0] },
             ],
           },
-          qty: "$items.quantity",
+          quantity: "$items.quantity",
         },
       },
     },
@@ -66,21 +65,3 @@ const fetchCartProducts = async () => {
   ]);
   return cartItems;
 };
-
-export default async function Cart() {
-  const cart = await fetchCartProducts();
-  if (!cart) return <CartEmptyPage />;
-
-  const { id, totalQty, totalPrice, products } = cart;
-
-  return (
-    <div>
-      <CartItems
-        cartId={id}
-        totalQty={totalQty}
-        cartTotal={cart.totalPrice}
-        products={products}
-      />
-    </div>
-  );
-}

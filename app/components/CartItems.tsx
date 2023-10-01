@@ -5,8 +5,10 @@ import Image from "next/image";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Button } from "@material-tailwind/react";
 import { formatPrice } from "@utils/helper";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
-export interface Product {
+interface Product {
   id: string;
   thumbnail: string;
   title: string;
@@ -26,8 +28,35 @@ const CartItems: React.FC<CartItemsProps> = ({
   products = [],
   totalQty,
   cartTotal,
+  cartId,
 }) => {
   const [busy, setBusy] = useState(false);
+  const router = useRouter();
+
+  const updateCart = async (productId: string, quantity: number) => {
+    setBusy(true);
+    await fetch("/api/product/cart", {
+      method: "POST",
+      body: JSON.stringify({ productId, quantity }),
+    });
+    router.refresh();
+    setBusy(false);
+  };
+
+  const handleCheckout = async () => {
+    setBusy(true);
+    const res = await fetch("/api/checkout", {
+      method: "POST",
+      body: JSON.stringify({ cartId }),
+    });
+    const { url, error } = await res.json();
+    if (!res.ok) {
+      toast.warning(error);
+    } else {
+      window.location.href = url;
+    }
+    setBusy(false);
+  };
 
   return (
     <div>
@@ -49,13 +78,25 @@ const CartItems: React.FC<CartItemsProps> = ({
                 {formatPrice(product.totalPrice)}
               </td>
               <td className="py-4">
-                <CartCountUpdater value={product.qty} disabled={busy} />
+                <CartCountUpdater
+                  onDecrement={() => {
+                    updateCart(product.id, -1);
+                  }}
+                  onIncrement={() => {
+                    updateCart(product.id, 1);
+                  }}
+                  value={product.qty}
+                  disabled={busy}
+                />
               </td>
               <td className="py-4 text-right">
                 <button
                   disabled={busy}
                   className="text-red-500"
                   style={{ opacity: busy ? "0.5" : "1" }}
+                  onClick={() => {
+                    updateCart(product.id, -product.qty);
+                  }}
                 >
                   <XMarkIcon className="w-5 h-5" />
                 </button>
@@ -67,18 +108,19 @@ const CartItems: React.FC<CartItemsProps> = ({
 
       <div className="flex flex-col justify-end items-end space-y-4">
         <div className="flex justify-end space-x-4 text-blue-gray-800">
-          <p className="font-semibold text-2xl">Total</p>
+          <p className="font-semibold text-2xl">총 금액 :</p>
           <div>
             <p className="font-semibold text-2xl">{formatPrice(cartTotal)}</p>
-            <p className="text-right text-sm">{totalQty} items</p>
+            <p className="text-right text-sm">상품수 : {totalQty} 개</p>
           </div>
         </div>
         <Button
           className="shadow-none hover:shadow-none  focus:shadow-none focus:scale-105 active:scale-100"
           color="green"
           disabled={busy}
+          onClick={handleCheckout}
         >
-          Checkout
+          구매하기
         </Button>
       </div>
     </div>

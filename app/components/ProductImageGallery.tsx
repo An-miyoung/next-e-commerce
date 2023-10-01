@@ -88,8 +88,8 @@ export default function ProductImageGallery(props: Props) {
               key={index}
               src={img}
               alt="testing"
-              width={500}
-              height={500}
+              width={300}
+              height={300}
               placeholder="blur"
               blurDataURL={rgbDataURL(237, 181, 6)}
             />
@@ -111,6 +111,7 @@ export default function ProductImageGallery(props: Props) {
           );
         })}
       </div>
+      <div className="h-20" />
     </div>
   );
 }

@@ -26,7 +26,6 @@ export default function ProductView({
         {/* Product Image Slider */}
         <ProductImageGallery images={images} />
       </div>
-
       <div className="flex-1 md:space-y-4 space-y-2">
         <h1 className="md:text-3xl text-xl font-semibold">{title}</h1>
         <p>{description}</p>

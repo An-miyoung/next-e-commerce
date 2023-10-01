@@ -110,3 +110,27 @@ export interface UserProfileToUpdate {
   avatar?: { url: string; id: string };
   name: string;
 }
+
+interface CartProduct {
+  id: string;
+  thumbnail: string;
+  title: string;
+  price: number;
+  totalPrice: number;
+  quantity: number;
+}
+
+export interface CartItems {
+  products: CartProduct[];
+  id: string;
+  totalQty: number;
+  totalPrice: number;
+}
+
+export interface StripeCustomer {
+  metadata: {
+    userId: string;
+    cartId: string;
+    type: "checkout";
+  };
+}

@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 import truncate from "truncate";
 import useAuth from "../hooks/useAuth";
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 
 interface Props {
   product: {
@@ -49,6 +49,21 @@ export default function ProductCard({ product }: Props) {
       toast.warning(error);
     }
     router.refresh();
+  };
+
+  const handleCheckout = async () => {
+    const res = await fetch("/api/checkout/instant", {
+      method: "POST",
+      body: JSON.stringify({ productId: product.id }),
+    });
+
+    const { url, error } = await res.json();
+
+    if (!res.ok) {
+      toast.error(error);
+    } else {
+      window.location.href = url;
+    }
   };
 
   return (
@@ -107,6 +122,11 @@ export default function ProductCard({ product }: Props) {
           ripple={false}
           fullWidth={false}
           className="w-full bg-blue-400 text-white shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
+          onClick={() =>
+            startTransition(async () => {
+              await handleCheckout();
+            })
+          }
           disabled={isPending}
         >
           바로 구매하기

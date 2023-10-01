@@ -61,10 +61,10 @@ export default function BuyingOptions() {
         variant="text"
         disabled={isPending}
       >
-        Add to Cart
+        장바구니에 넣기
       </Button>
       <Button color="amber" className="rounded-full" disabled={isPending}>
-        Buy Now
+        바로 구매하기
       </Button>
     </div>
   );

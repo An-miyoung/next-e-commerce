@@ -27,6 +27,7 @@ interface OrderDocument extends Document {
     totalPrice: number;
     quantity: number;
   }[];
+  createdAt: Date;
 }
 
 const orderSchema = new Schema<OrderDocument>(

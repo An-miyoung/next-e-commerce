@@ -58,46 +58,43 @@ export default function NavUI({ cartItemsCount, avatar }: Props) {
             Peanuts Closet
           </Link>
 
-          {innerWidth >= 400 && (
-            <div className="flex flex-row items-center justify-center">
-              <CartIcon cartItems={cartItemsCount} />
-              {loggedIn ? (
-                <ProfileMenu menuItems={menuItems} avatar={avatar} />
-              ) : loading ? (
-                <Spinner />
-              ) : (
-                <>
-                  <Link className="px-4 py-1" href="/auth/signin">
-                    Sign in
-                  </Link>
-                  <Link
-                    className="bg-blue-500 text-white px-4 py-1 rounded"
-                    href="/auth/signup"
-                  >
-                    Sign up
-                  </Link>
-                </>
-              )}
-            </div>
-          )}
-          {innerWidth < 400 && (
-            <div className="flex items-center space-x-2">
-              <CartIcon cartItems={cartItemsCount} />
+          <div className="hidden lg:flex gap-2 items-center">
+            <CartIcon cartItems={cartItemsCount} />
+            {loggedIn ? (
+              <ProfileMenu menuItems={menuItems} avatar={avatar} />
+            ) : loading ? (
+              <Spinner />
+            ) : (
+              <>
+                <Link className="px-4 py-1" href="/auth/signin">
+                  Sign in
+                </Link>
+                <Link
+                  className="bg-blue-500 text-white px-4 py-1 rounded"
+                  href="/auth/signup"
+                >
+                  Sign up
+                </Link>
+              </>
+            )}
+          </div>
 
-              <IconButton
-                variant="text"
-                color="blue-gray"
-                className="lg:hidden"
-                onClick={() => setOpen(!open)}
-              >
-                {open ? (
-                  <XMarkIcon className="h-6 w-6" strokeWidth={2} />
-                ) : (
-                  <Bars3Icon className="h-6 w-6" strokeWidth={2} />
-                )}
-              </IconButton>
-            </div>
-          )}
+          <div className="lg:hidden flex items-center space-x-2">
+            <CartIcon cartItems={cartItemsCount} />
+
+            <IconButton
+              variant="text"
+              color="blue-gray"
+              className="lg:hidden"
+              onClick={() => setOpen(!open)}
+            >
+              {open ? (
+                <XMarkIcon className="h-6 w-6" strokeWidth={2} />
+              ) : (
+                <Bars3Icon className="h-6 w-6" strokeWidth={2} />
+              )}
+            </IconButton>
+          </div>
         </div>
       </MaterialNav>
       <div className="lg:hidden">

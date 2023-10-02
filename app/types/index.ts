@@ -135,3 +135,21 @@ export interface StripeCustomer {
     product: string;
   };
 }
+
+export type product = {
+  id: string;
+  title: string;
+  thumbnail: string;
+  totalPrice: number;
+  price: number;
+  quantity: number;
+};
+
+export interface Orders {
+  id: any;
+  products: product[];
+  paymentStatus: string;
+  date: string;
+  total: number;
+  deliveryStatus: "ordered" | "delivered" | "shipped";
+}

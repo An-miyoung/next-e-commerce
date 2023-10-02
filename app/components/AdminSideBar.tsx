@@ -20,7 +20,6 @@ const AdminSidebar = ({ children }: Props) => {
     <div className="flex">
       <div className="flex flex-col justify-between bg-blue-300 h-screen w-64 sticky top-0 p-10">
         <ul className="space-y-4 text-white">
-          <div className="h-5" />
           <li>
             <Link
               className="font-semibold text-lg text-white"
@@ -29,7 +28,7 @@ const AdminSidebar = ({ children }: Props) => {
               Ecommerce
             </Link>
           </li>
-          <div className="h-5" />
+
           <li>
             <Link className="flex items-center space-x-1" href="/dashboard">
               <Squares2X2Icon className="w-4 h-4" />
@@ -37,7 +36,7 @@ const AdminSidebar = ({ children }: Props) => {
             </Link>
             <hr className="w-full " />
           </li>
-          <div className="h-5" />
+
           <li>
             <Link className="flex items-center space-x-1" href="/products">
               <ShoppingCartIcon className="w-4 h-4" />
@@ -45,7 +44,7 @@ const AdminSidebar = ({ children }: Props) => {
             </Link>
             <hr className="w-full " />
           </li>
-          <div className="h-5" />
+
           <li>
             <Link
               className="flex items-center space-x-1"
@@ -56,7 +55,7 @@ const AdminSidebar = ({ children }: Props) => {
             </Link>
             <hr className="w-full " />
           </li>
-          <div className="h-5" />
+
           <li>
             <Link className="flex items-center space-x-1" href="/sales">
               <CurrencyDollarIcon className="w-4 h-4" />
@@ -64,7 +63,7 @@ const AdminSidebar = ({ children }: Props) => {
             </Link>
             <hr className="w-full " />
           </li>
-          <div className="h-5" />
+
           <li>
             <Link className="flex items-center space-x-1" href="/orders">
               <ShoppingBagIcon className="h-4 w-4" />
@@ -72,7 +71,6 @@ const AdminSidebar = ({ children }: Props) => {
             </Link>
             <hr className="w-full " />
           </li>
-          <div className="h-5" />
         </ul>
 
         <div>

@@ -2,6 +2,7 @@ import React from "react";
 import BuyingOptions from "@components/BuyingOptions";
 import ProductImageGallery from "@components/ProductImageGallery";
 import { formatPrice } from "@utils/helper";
+import Rating from "@components/Rating";
 
 interface Props {
   title: string;
@@ -10,6 +11,7 @@ interface Props {
   points?: string[];
   price: { base: number; discounted: number };
   sale: number;
+  rating: number;
 }
 
 export default function ProductView({
@@ -19,6 +21,7 @@ export default function ProductView({
   points,
   price,
   sale,
+  rating,
 }: Props) {
   return (
     <div className="flex lg:flex-row flex-col md:gap-4 gap-2">
@@ -35,7 +38,7 @@ export default function ProductView({
             return <li key={index}>{point}</li>;
           })}
         </div>
-        <div className="h-5" />
+        <div>{rating && <Rating value={parseFloat(rating.toFixed(1))} />}</div>
         <div className="flex items-center space-x-2 mb-2">
           <p className="line-through text-xl">{formatPrice(price.base)}</p>
           <p className="font-semibold text-xl">

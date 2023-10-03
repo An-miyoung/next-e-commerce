@@ -54,15 +54,17 @@ export default async function Review({ params }: Props) {
   return (
     <div className="p-6 space-y-4">
       <div className="flex items-center space-x-4">
-        <Image
-          src={review?.product.thumbnail || ""}
-          alt={`${review?.product.title}` || "thumbnail"}
-          width={50}
-          height={50}
-          priority
-          style={{ width: "auto", height: "auto" }}
-          className=" rounded"
-        />
+        {review && (
+          <Image
+            src={review?.product.thumbnail || ""}
+            alt={`${review?.product.title}` || "thumbnail"}
+            width={50}
+            height={50}
+            priority
+            style={{ width: "auto", height: "auto" }}
+            className=" rounded"
+          />
+        )}
         <h3>{review?.product.title || ""}</h3>
       </div>
       <ReviewForm productId={productId} initialValue={initialValue} />

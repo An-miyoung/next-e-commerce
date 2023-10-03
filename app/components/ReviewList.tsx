@@ -30,8 +30,9 @@ export default function ReviewsList({ reviews }: Props) {
                 width={40}
                 height={40}
                 className="rounded-full object-fill"
-                src={review.userInfo.avatar || "/avatar.png"}
+                src={review.userInfo.avatar || "/user-avatar.png"}
                 alt={review.userInfo.name}
+                style={{ width: "auto", height: "auto" }}
               />
               <div>
                 <p className="font-semibold">{review.userInfo.name}</p>

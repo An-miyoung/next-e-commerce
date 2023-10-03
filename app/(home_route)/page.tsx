@@ -32,6 +32,7 @@ const fetchLatestProducts = async () => {
       price: product.price,
       category: product.category,
       sale: product.sale,
+      rating: product.rating,
     };
   });
   return JSON.stringify(fianlproducts);

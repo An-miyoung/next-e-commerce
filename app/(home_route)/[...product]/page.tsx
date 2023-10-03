@@ -27,6 +27,7 @@ const fetchProduct = async (productId: string) => {
     bulletPoints: product.bulletPoints,
     price: product.price,
     sale: product.sale,
+    rating: product.rating,
   };
   return JSON.stringify(finalProduct);
 };
@@ -80,6 +81,7 @@ export default async function Product({ params }: Props) {
         points={productInfo.bulletPoints}
         price={productInfo.price}
         sale={productInfo.sale}
+        rating={productInfo.rating}
       />
       <div className="py-4 space-y-4">
         <div className="flex justify-between items-center">

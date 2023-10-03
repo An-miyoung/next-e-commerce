@@ -153,3 +153,9 @@ export interface Orders {
   total: number;
   deliveryStatus: "ordered" | "delivered" | "shipped";
 }
+
+export interface ReviewRequestBody {
+  productId: string;
+  comment?: string;
+  rating: number;
+}

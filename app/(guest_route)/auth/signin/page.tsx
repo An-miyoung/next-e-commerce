@@ -72,7 +72,6 @@ export default function SignIn() {
         error={error("email")}
         crossOrigin={undefined}
       />
-      <div className="h-5"></div>
       <Input
         name="password"
         label="비밀번호"
@@ -83,7 +82,6 @@ export default function SignIn() {
         type="password"
         crossOrigin={undefined}
       />
-      <div className="h-5"></div>
       <Button
         type="submit"
         className="w-full"
@@ -92,7 +90,6 @@ export default function SignIn() {
       >
         로그인
       </Button>
-      <div className="h-5"></div>
       <div className="flex items-center justify-between">
         <Link href="/auth/signup" className="text-sm text-blue-gray-800">
           회원가입

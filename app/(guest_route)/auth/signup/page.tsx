@@ -79,7 +79,7 @@ export default function SignUp() {
         onBlur={handleBlur}
         onChange={handleChange}
       />
-      <div className="h-5">
+      <div>
         {errors.name !== undefined && touchedKeys.includes("name") && (
           <div className="space-x-1 flex items-center text-red-500">
             <ErrorRender errorMessage={errors.name} />
@@ -94,7 +94,7 @@ export default function SignUp() {
         onBlur={handleBlur}
         onChange={handleChange}
       />
-      <div className="h-5">
+      <div>
         {errors.email !== undefined && touchedKeys.includes("email") && (
           <div className="space-x-1 flex items-center text-red-500">
             <ErrorRender errorMessage={errors.email} />
@@ -110,7 +110,7 @@ export default function SignUp() {
         onBlur={handleBlur}
         onChange={handleChange}
       />
-      <div className="h-5">
+      <div>
         {errors.password !== undefined && touchedKeys.includes("password") && (
           <div className="space-x-1 flex items-center text-red-500">
             <ErrorRender errorMessage={errors.password} />
@@ -125,7 +125,6 @@ export default function SignUp() {
       >
         가입하기
       </Button>
-      <div className="h-5"></div>
       <div className="flex items-center justify-between">
         <Link href="/auth/signin" className="text-sm text-blue-gray-800">
           로그인

@@ -61,6 +61,19 @@ const fetchProductReview = async (productId: string) => {
   return JSON.stringify(result);
 };
 
+const fetchSimilarProducts = async () => {
+  await startDb();
+  const products = await ProductModel.find().sort({ rating: -1 }).limit(10);
+  return products.map((product) => {
+    return {
+      id: product._id.toString(),
+      title: product.title,
+      thumbnail: product.thumbnail.url,
+      price: product.price.discounted,
+    };
+  });
+};
+
 export default async function Product({ params }: Props) {
   const { product } = params;
   const productId = product[1];
@@ -72,6 +85,8 @@ export default async function Product({ params }: Props) {
   }
 
   const reviews = JSON.parse(await fetchProductReview(productId));
+
+  const similarProducts = await fetchSimilarProducts();
 
   return (
     <div className="p-5">
@@ -85,6 +100,7 @@ export default async function Product({ params }: Props) {
         rating={productInfo.rating}
         outOfStock={productInfo.outOfStock}
       />
+      <div>{JSON.stringify(similarProducts)}</div>
       <div className="py-4 space-y-4">
         <div className="flex justify-between items-center">
           <h1 className=" text-2xl font-semibold mb-2">후기</h1>

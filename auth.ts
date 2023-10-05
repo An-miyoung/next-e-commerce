@@ -1,6 +1,6 @@
 import NextAuth, { NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { SessionUserProfile, SignInCredentials } from "./app/types";
+import { SessionUserProfile, SignInCredentials } from "@app/types";
 
 // next-auth 에 이미 지정된 Session interface 를 오버라이딩한다.
 declare module "next-auth" {

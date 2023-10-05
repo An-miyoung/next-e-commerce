@@ -38,7 +38,7 @@ export default function FeaturedProductsSlider({ products }: Props) {
   if (!products.length) return null;
 
   return (
-    <div className="h-[380px]">
+    <div className="lg:h-[380px] md:h-[300px] h-[250px]">
       <Slider {...settings}>
         {products.map(({ banner, title, link, linkTitle }, index) => {
           return (
@@ -50,8 +50,8 @@ export default function FeaturedProductsSlider({ products }: Props) {
                 <Image fill src={banner} alt={title} priority />
               </div>
               <div className="absolute inset-0 p-5">
-                <div className="w-1/2 h-full md:w-1/2 flex flex-col items-start justify-center">
-                  <h1 className="text-lg md:text-2xllg:text-3xl font-semibold text-left mb-2">
+                <div className="w-1/2 h-full flex flex-col items-start justify-center">
+                  <h1 className="text-lg md:text-2xl lg:text-3xl font-semibold text-left mb-2">
                     {title}
                   </h1>
                   <Button

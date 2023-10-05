@@ -12,6 +12,7 @@ interface Props {
   price: { base: number; discounted: number };
   sale: number;
   rating: number;
+  outOfStock: boolean;
 }
 
 export default function ProductView({
@@ -22,6 +23,7 @@ export default function ProductView({
   price,
   sale,
   rating,
+  outOfStock,
 }: Props) {
   return (
     <div className="flex lg:flex-row flex-col md:gap-4 gap-2">
@@ -50,7 +52,13 @@ export default function ProductView({
         </div>
 
         <div className="flex py-4">
-          <BuyingOptions />
+          {outOfStock ? (
+            <div className=" text-red-500 text-lg">
+              품절입니다. 빠르게 상품을 준비하겠습니다.
+            </div>
+          ) : (
+            <BuyingOptions />
+          )}
         </div>
       </div>
     </div>

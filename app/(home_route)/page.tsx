@@ -17,6 +17,7 @@ interface LatestProduct {
   };
   category: string;
   sale: number;
+  outOfStock: boolean;
 }
 
 const fetchLatestProducts = async () => {
@@ -33,6 +34,7 @@ const fetchLatestProducts = async () => {
       category: product.category,
       sale: product.sale,
       rating: product.rating,
+      outOfStock: product.quantity <= 0,
     };
   });
   return JSON.stringify(fianlproducts);

@@ -30,6 +30,7 @@ interface Props {
       discounted: number;
     };
     rating?: number;
+    outOfStock: boolean;
   };
 }
 
@@ -113,33 +114,42 @@ export default function ProductCard({ product }: Props) {
           </p>
         </CardBody>
       </Link>
-      <CardFooter className=" pt-0 space-y-4">
-        <Button
-          ripple={false}
-          fullWidth={false}
-          onClick={() =>
-            startTransition(async () => {
-              await addToCart();
-            })
-          }
-          disabled={isPending}
-          className="w-full bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
-        >
-          장바구니에 넣기
-        </Button>
-        <Button
-          ripple={false}
-          fullWidth={false}
-          className="w-full bg-blue-400 text-white shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
-          onClick={() =>
-            startTransition(async () => {
-              await handleCheckout();
-            })
-          }
-          disabled={isPending}
-        >
-          바로 구매하기
-        </Button>
+      <CardFooter className=" pt-0 space-y-4 ">
+        {product.outOfStock ? (
+          <div className=" text-red-500 text-lg pt-4">
+            <p>품절입니다.</p>
+            <p>빠르게 상품을 준비하겠습니다.</p>
+          </div>
+        ) : (
+          <>
+            <Button
+              ripple={false}
+              fullWidth={false}
+              onClick={() =>
+                startTransition(async () => {
+                  await addToCart();
+                })
+              }
+              disabled={isPending}
+              className="w-full bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
+            >
+              장바구니에 넣기
+            </Button>
+            <Button
+              ripple={false}
+              fullWidth={false}
+              className="w-full bg-blue-400 text-white shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
+              onClick={() =>
+                startTransition(async () => {
+                  await handleCheckout();
+                })
+              }
+              disabled={isPending}
+            >
+              바로 구매하기
+            </Button>
+          </>
+        )}
       </CardFooter>
     </Card>
   );

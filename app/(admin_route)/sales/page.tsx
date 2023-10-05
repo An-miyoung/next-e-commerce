@@ -4,6 +4,7 @@ import dateformat from "dateformat";
 import SalesCharts from "@/app/components/SalesCharts";
 import GridView from "@/app/components/GridView";
 import { formatPrice } from "@/app/utils/helper";
+import startDb from "@/app/lib/db";
 
 const sevenDaySalesHistory = async () => {
   // calcurate the date: 7 days ago
@@ -18,6 +19,7 @@ const sevenDaySalesHistory = async () => {
     dateList.push(dateString);
   }
   // fetch data from within those 7 days
+  await startDb();
   const lastSevenDaysSales: { _id: string; totalAmount: number }[] =
     await OrderModel.aggregate([
       {

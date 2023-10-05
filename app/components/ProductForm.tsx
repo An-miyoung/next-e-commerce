@@ -253,6 +253,7 @@ export default function ProductForm(props: Props) {
               value={productInfo.quantity}
               label="개"
               onChange={({ target }) => {
+                console.log(target.value);
                 const quantity = +target.value;
                 if (!isNaN(quantity))
                   setProductInfo({ ...productInfo, quantity });

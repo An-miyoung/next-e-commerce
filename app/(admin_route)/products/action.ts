@@ -78,6 +78,7 @@ export const updateProduct = async (
     const updateImages = productInfo.images && [...productInfo.images];
     // delete 로 그냥 지울수 있다!!!!!!!
     delete productInfo.images;
+
     await ProductModel.findByIdAndUpdate(id, {
       ...productInfo,
       // 기존내용 위에 지정한 내용한 push 해준다, 즉 images 가 새로 생긴다.

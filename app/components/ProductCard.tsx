@@ -93,8 +93,10 @@ export default function ProductCard({ product }: Props) {
               {truncate(product.title, 50)}
             </h3>
             <div className="flex justify-end">
-              {product.rating && (
+              {product.rating ? (
                 <Rating value={parseFloat(product.rating.toFixed(1))} />
+              ) : (
+                <Rating value={0} />
               )}
             </div>
           </div>

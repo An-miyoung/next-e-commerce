@@ -5,6 +5,7 @@ import ProductForm, { InitialValue } from "./ProductForm";
 import { NewProductInfo, ProductResponse, ProductToUpdate } from "@/app/types";
 import {
   removeAndUpdateProductImage,
+  removeImageFromCloud,
   updateProduct,
 } from "../(admin_route)/products/action";
 import { extractPublicId, uploadImage } from "@utils/helper";
@@ -50,7 +51,7 @@ export default function UpdateProduct({ product }: Props) {
       if (thumbnail) {
         // 기본 썸네일을 클라우드에서 지운다.
         console.log(thumbnail);
-        // await removeImageFromCloud(product.thumbnail.id);
+        await removeImageFromCloud(product.thumbnail.id);
         const { id, url } = await uploadImage(thumbnail);
         console.log(id, url);
         dataToUpdate.thumbnail = { id, url };
@@ -61,11 +62,11 @@ export default function UpdateProduct({ product }: Props) {
           return await uploadImage(imageFile!);
         });
         dataToUpdate.images = await Promise.all(uploadPromise);
-
-        await updateProduct(product.id, dataToUpdate);
-        router.refresh();
-        router.push("/products");
       }
+
+      await updateProduct(product.id, dataToUpdate);
+      router.refresh();
+      router.push("/products");
     } catch (error) {
       if (error instanceof ValidationError) {
         error.inner.map((e) => {

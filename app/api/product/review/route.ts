@@ -62,7 +62,7 @@ export const POST = async (req: Request) => {
       rating,
     };
     await startDb();
-    await ReviewModel.findOneAndUpdate(
+    const res = await ReviewModel.findOneAndUpdate(
       {
         userId,
         product: productId,
@@ -72,6 +72,8 @@ export const POST = async (req: Request) => {
         upsert: true,
       }
     );
+
+    console.log(res);
 
     await updateProductRating(productId);
 

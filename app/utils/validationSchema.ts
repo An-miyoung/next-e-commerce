@@ -22,8 +22,7 @@ const commonSchema = {
   quantity: yup
     .number()
     .required("재고수량은 필수입력입니다.")
-    .integer("재고수량은 반드시 정수여야 합니다.")
-    .positive("재고수량은 반드시 양수여야 합니다."),
+    .integer("재고수량은 반드시 정수여야 합니다."),
   images: yup
     .array()
     .test(

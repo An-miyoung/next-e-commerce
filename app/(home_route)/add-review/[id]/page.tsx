@@ -43,6 +43,18 @@ const fetchMyReview = async (productId: string) => {
   };
 };
 
+const fetchProductThumbnail = async (productId: string) => {
+  if (!isValidObjectId(productId)) return redirect("/404");
+  await startDb();
+  const product = await ProductModel.findById(productId);
+  if (!product) return redirect("/404");
+
+  return {
+    title: product.title,
+    thumbnail: product.thumbnail.url,
+  };
+};
+
 export default async function Review({ params }: Props) {
   const productId = params.id;
   const review = await fetchMyReview(productId);
@@ -51,21 +63,20 @@ export default async function Review({ params }: Props) {
     ? { rating: review.rating, comment: review.comment || "" }
     : undefined;
 
+  const { title, thumbnail } = await fetchProductThumbnail(productId);
+
   return (
     <div className="p-6 space-y-4">
       <div className="flex items-center space-x-4">
-        {review && (
-          <Image
-            src={review?.product.thumbnail || ""}
-            alt={`${review?.product.title}` || "thumbnail"}
-            width={50}
-            height={50}
-            priority
-            style={{ width: "auto", height: "auto" }}
-            className=" rounded"
-          />
-        )}
-        <h3>{review?.product.title || ""}</h3>
+        <Image
+          src={review?.product.thumbnail || thumbnail}
+          alt={`${review?.product.title}` || title}
+          width={50}
+          height={50}
+          style={{ width: "auto", height: "auto" }}
+          className=" rounded"
+        />
+        <h3>{title}</h3>
       </div>
       <ReviewForm productId={productId} initialValue={initialValue} />
     </div>

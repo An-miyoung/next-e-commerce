@@ -1,5 +1,7 @@
+import HorizontalMenu from "@/app/components/HorizontalMenu";
 import ProductView from "@/app/components/ProductView";
 import ReviewsList from "@/app/components/ReviewList";
+import SimillarProductList from "@/app/components/SimillarProductList";
 import startDb from "@/app/lib/db";
 import ProductModel from "@/app/models/productModel";
 import ReviewModel from "@/app/models/reviewModel";
@@ -100,7 +102,7 @@ export default async function Product({ params }: Props) {
         rating={productInfo.rating}
         outOfStock={productInfo.outOfStock}
       />
-      <div>{JSON.stringify(similarProducts)}</div>
+      <SimillarProductList products={similarProducts} />
       <div className="py-4 space-y-4">
         <div className="flex justify-between items-center">
           <h1 className=" text-2xl font-semibold mb-2">후기</h1>

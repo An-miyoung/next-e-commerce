@@ -3,9 +3,11 @@ import ProductView from "@/app/components/ProductView";
 import ReviewsList from "@/app/components/ReviewList";
 import SimillarProductList from "@/app/components/SimillarProductList";
 import startDb from "@/app/lib/db";
+import { updateOrCreateHistory } from "@/app/models/historyModel";
 import ProductModel from "@/app/models/productModel";
 import ReviewModel from "@/app/models/reviewModel";
 import UserModel from "@/app/models/userModels";
+import { auth } from "@/auth";
 import { ObjectId, isValidObjectId } from "mongoose";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -20,6 +22,12 @@ const fetchProduct = async (productId: string) => {
   await startDb();
   const product = await ProductModel.findById(productId);
   if (!product) return redirect("/404");
+
+  const session = await auth();
+  // 회원가입한 사람만 history를 녹화하고 guest는 상품화면을 렌더해준다
+  if (session?.user)
+    await updateOrCreateHistory(session.user.id, product._id.toString());
+
   const finalProduct = {
     id: product._id.toString(),
     title: product.title,

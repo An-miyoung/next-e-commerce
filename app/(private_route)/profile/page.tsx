@@ -1,5 +1,8 @@
+import OrderListPublic from "@/app/components/OrderListPublic";
 import startDb from "@/app/lib/db";
+import OrderModel from "@/app/models/orderModel";
 import UserModel from "@/app/models/userModels";
+import { Orders } from "@/app/types";
 import { auth } from "@/auth";
 import EmailVerificationBanner from "@components/EmailVerificationBanner";
 import ProfileForm from "@components/ProfileForm";
@@ -23,8 +26,31 @@ const fetchUserProfile = async () => {
   };
 };
 
+const fetchRecentOrder = async () => {
+  const session = await auth();
+  if (!session?.user) return redirect("/auth/signin");
+
+  await startDb();
+  const orders = await OrderModel.find({ userId: session.user.id })
+    .sort("-createdAt")
+    .limit(1);
+  const result: Orders[] = orders.map((order) => {
+    return {
+      id: order._id.toString(),
+      paymentStatus: order.paymentStatus,
+      date: order.createdAt.toString(),
+      total: order.totalAmount,
+      deliveryStatus: order.deliveryStatus,
+      products: order.orderItems,
+    };
+  });
+
+  return JSON.stringify(result);
+};
+
 export default async function Profile() {
   const { id, name, email, avatar, verified } = await fetchUserProfile();
+  const order = JSON.parse(await fetchRecentOrder());
   return (
     <div>
       <EmailVerificationBanner id={id} verified={verified} />
@@ -42,6 +68,7 @@ export default async function Profile() {
               See all orders
             </Link>
           </div>
+          <OrderListPublic orders={order} />
         </div>
       </div>
     </div>

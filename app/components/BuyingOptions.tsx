@@ -6,8 +6,14 @@ import CartCountUpdater from "@components/CartCountUpdater";
 import { useRouter, useParams } from "next/navigation";
 import useAuth from "../hooks/useAuth";
 import { toast } from "react-toastify";
+import { HeartIcon } from "@heroicons/react/24/outline";
+import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 
-export default function BuyingOptions() {
+interface Props {
+  wishList?: boolean;
+}
+
+export default function BuyingOptions({ wishList }: Props) {
   const [quantity, setQuantity] = useState(1);
   const [isPending, startTransition] = useTransition();
   // buyingOption 은 화면이 없기때문에
@@ -44,6 +50,21 @@ export default function BuyingOptions() {
     router.refresh();
   };
 
+  const updateWishList = async () => {
+    if (!productId) return;
+    if (!loggedIn) router.push("/auth/signin");
+
+    const res = await fetch("/api/wishList", {
+      method: "POST",
+      body: JSON.stringify({ productId }),
+    });
+    const { error } = await res.json();
+    if (!res.ok && error) {
+      toast.warning(error);
+    }
+    router.refresh();
+  };
+
   return (
     <div className="flex items-center space-x-2">
       <CartCountUpdater
@@ -53,6 +74,7 @@ export default function BuyingOptions() {
       />
 
       <Button
+        color="blue"
         onClick={() =>
           startTransition(async () => {
             await addToCart();
@@ -65,6 +87,21 @@ export default function BuyingOptions() {
       </Button>
       <Button color="amber" className="rounded-full" disabled={isPending}>
         바로 구매하기
+      </Button>
+      <Button
+        onClick={() =>
+          startTransition(async () => {
+            await updateWishList();
+          })
+        }
+        variant="text"
+        color="blue"
+      >
+        {wishList ? (
+          <HeartIconSolid className="w-6 h-6 text-red-400" />
+        ) : (
+          <HeartIcon className="w-6 h-6" />
+        )}
       </Button>
     </div>
   );

@@ -6,20 +6,7 @@ import ProductCard from "@components/ProductCard";
 import FeaturedProductsSlider from "@components/FeaturedProductsSlider";
 import FeaturedProductModel from "@models/featuredProduct";
 import CategoryMenu from "@components/CategoryMenu";
-
-interface LatestProduct {
-  id: string;
-  title: string;
-  description: string;
-  thumbnail: string;
-  price: {
-    base: number;
-    discounted: number;
-  };
-  category: string;
-  sale: number;
-  outOfStock: boolean;
-}
+import { LatestProduct } from "../types";
 
 const fetchLatestProducts = async () => {
   await startDb();

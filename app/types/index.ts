@@ -159,3 +159,17 @@ export interface ReviewRequestBody {
   comment?: string;
   rating: number;
 }
+
+export interface LatestProduct {
+  id: string;
+  title: string;
+  description: string;
+  thumbnail: string;
+  price: {
+    base: number;
+    discounted: number;
+  };
+  category: string;
+  sale: number;
+  outOfStock: boolean;
+}

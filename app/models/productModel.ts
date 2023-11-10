@@ -23,7 +23,7 @@ export interface NewProduct {
 }
 
 // Step 1: Create the interface for ProductDocument
-interface ProductDocument extends NewProduct {
+export interface ProductDocument extends NewProduct {
   // Step 3: Define the virtual property
   sale: number;
 }

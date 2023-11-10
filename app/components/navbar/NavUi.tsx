@@ -15,6 +15,7 @@ import CartIcon from "../CartIcon";
 // tsconfig 안에 경로를 이렇게 표기하겠다고 선언함
 import useAuth from "@hooks/useAuth";
 import ProfileMenu from "../ProfileMenu";
+import SearchForm from "../SearchForm";
 
 interface Props {
   cartItemsCount: number;
@@ -58,6 +59,12 @@ export default function NavUI({ cartItemsCount, avatar }: Props) {
             Peanuts Closet
           </Link>
 
+          <div className="hidden lg:flex-1 lg:flex lg:justify-center ">
+            <div className="md:w-96 w-full md:mx-0 mx-4">
+              <SearchForm submitTo={`/search?query=`} />
+            </div>
+          </div>
+
           <div className="hidden lg:flex gap-2 items-center">
             <CartIcon cartItems={cartItemsCount} />
             {loggedIn ? (
@@ -94,6 +101,11 @@ export default function NavUI({ cartItemsCount, avatar }: Props) {
                 <Bars3Icon className="h-6 w-6" strokeWidth={2} />
               )}
             </IconButton>
+          </div>
+        </div>
+        <div className="lg:hidden flex-1 flex justify-center">
+          <div className="md:w-96 w-full md:mx-0 mx-4 mt-1">
+            <SearchForm submitTo={`/search?query=`} />
           </div>
         </div>
       </MaterialNav>

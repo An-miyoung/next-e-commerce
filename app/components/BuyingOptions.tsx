@@ -4,10 +4,9 @@ import React, { useState, useTransition } from "react";
 import { Button } from "@material-tailwind/react";
 import CartCountUpdater from "@components/CartCountUpdater";
 import { useRouter, useParams } from "next/navigation";
-import useAuth from "../hooks/useAuth";
+import useAuth from "@hooks/useAuth";
 import { toast } from "react-toastify";
-import { HeartIcon } from "@heroicons/react/24/outline";
-import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
+import { WishListUi } from "@ui/WishListUi";
 
 interface Props {
   wishList?: boolean;
@@ -97,11 +96,7 @@ export default function BuyingOptions({ wishList }: Props) {
         variant="text"
         color="blue"
       >
-        {wishList ? (
-          <HeartIconSolid className="w-6 h-6 text-red-400" />
-        ) : (
-          <HeartIcon className="w-6 h-6" />
-        )}
+        <WishListUi isActive={wishList} />
       </Button>
     </div>
   );

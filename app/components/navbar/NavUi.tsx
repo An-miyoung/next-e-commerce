@@ -7,7 +7,7 @@ import {
   IconButton,
   Spinner,
 } from "@material-tailwind/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, HeartIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { UserCircleIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 
 import { MobileNav } from "../MobileNav";
@@ -32,6 +32,11 @@ export const menuItems = [
     href: "/profile/orders",
     icon: <ShoppingBagIcon className="h-4 w-4" />,
     label: "Orders",
+  },
+  {
+    href: "/profile/wishList",
+    icon: <HeartIcon className="h-4 w-4" />,
+    label: "WishList",
   },
 ];
 

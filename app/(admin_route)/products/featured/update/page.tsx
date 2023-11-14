@@ -1,4 +1,4 @@
-import FeaturedProductForm from "@/app/components/FeaturedProductForm";
+// import FeaturedProductForm from "@/app/components/FeaturedProductForm";
 import startDb from "@/app/lib/db";
 import FeaturedProductModel from "@/app/models/featuredProduct";
 import { isValidObjectId } from "mongoose";
@@ -29,5 +29,5 @@ export default async function UpdateFeaturedProduct({ searchParams }: Props) {
   const { id } = searchParams;
   if (!isValidObjectId(id)) return redirect("/404");
   const product = JSON.parse(await fetchFeaturedProduct(id));
-  return <FeaturedProductForm initialValue={product} />;
+  // return <FeaturedProductForm initialValue={product} />;
 }

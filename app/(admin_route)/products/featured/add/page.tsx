@@ -1,4 +1,4 @@
-import FeaturedProductForm from "@/app/components/FeaturedProductForm";
+// import FeaturedProductForm from "@/app/components/FeaturedProductForm";
 import FeaturedProductTable from "@/app/components/FeaturedProductTable";
 import startDb from "@/app/lib/db";
 import FeaturedProductModel from "@/app/models/featuredProduct";
@@ -22,7 +22,7 @@ export default async function AddFeaturedProduct() {
   const products = await fetchFeaturedProduct();
   return (
     <>
-      <FeaturedProductForm />
+      {/* <FeaturedProductForm /> */}
       <FeaturedProductTable products={products} />
     </>
   );

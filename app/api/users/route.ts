@@ -13,8 +13,9 @@ export const POST = async (req: Request) => {
   const newUser = await UserModel.create({
     ...body,
   });
-
+  console.log(newUser._id);
   const token = crypto.randomBytes(36).toString("hex");
+  console.log(token);
   await EmailVerificationToken.create({
     user: newUser._id,
     token,
